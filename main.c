@@ -71,6 +71,7 @@ int exect_commands(char *lineptr, directs *head, int nerror, char *av)
 				print_err(av, mcommands[0], nerror);
 				free(mcommands);
 				free(ruta);
+				free(lineptr);
 				_exit(127);
 			}
 		}

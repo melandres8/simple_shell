@@ -8,7 +8,7 @@ int penv(void)
 {
 	int len = 0, i = 0;
 
-	for (i = 0; environ != NULL; i++)
+	for (i = 0; environ[i] != NULL; i++)
 	{
 		len = _strlen(environ[i]);
 		write(STDOUT_FILENO, environ[i], len);

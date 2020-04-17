@@ -33,7 +33,7 @@ int verify_cases(char *lineptr, ssize_t rget)
 	else if (_strcmp(lineptr, "env\n") == 0)
 	{
 		penv();
-		return (1);
+		return (0);
 	}
 	return (0);
 }
