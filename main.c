@@ -35,7 +35,7 @@ int main(int ac, char *av[])
 		}
 		nerror++;
 	} while (rget != -1);
-
+	free(lineptr);
 	return (0);
 }
 
@@ -53,6 +53,7 @@ int exect_commands(char *lineptr, directs *head, int nerror, char *av)
 	{
 		ruta = _which(&head, mcommands[0]);
 	}
+
 	if (lineptr && _strcmp(lineptr, "\n") && mcommands[0])
 	{
 
@@ -63,6 +64,7 @@ int exect_commands(char *lineptr, directs *head, int nerror, char *av)
 			{
 				print_err(av, mcommands[0], nerror);
 				free(mcommands);
+				free(ruta);
 				_exit(127);
 			}
 		}
@@ -71,6 +73,9 @@ int exect_commands(char *lineptr, directs *head, int nerror, char *av)
 			wait(&wstatus);
 		}
 	}
+	if (ruta)
+		free(ruta);
+	ruta = NULL;
 	free(mcommands);
 	return (0);
 }
@@ -94,5 +99,5 @@ void free_mem(char *ruta, char **mcommands, char *lineptr)
 	if (lineptr)
 		free(lineptr);
 	if (mcommands)
-		free_dbl_arr(mcommands);
+		free(mcommands);
 }

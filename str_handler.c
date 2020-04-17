@@ -68,7 +68,7 @@ char *_strcat(char *fstr, char *sstr)
 
 	lens2 = _strlen(sstr);
 
-	concat = malloc((lens1 + lens2 + 7));
+	concat = malloc((lens1 + lens2 + 1));
 
 	for (i = 0; i < lens1; i++)
 	{

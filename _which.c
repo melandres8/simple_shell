@@ -10,29 +10,36 @@
 char *_which(directs **head, char *dir)
 {
 	struct stat st;
-	directs *dup = *head;
+	directs *copy;
 	char *ruta = NULL;
 	char *rutaComp = NULL;
 
-	if (stat(dir, &st) == 0)
+	copy = *head;
+	ruta = _strcat("/", dir);
+
+	while (copy != NULL)
 	{
-		return (dir);
+
+		rutaComp = _strcat(copy->direct, ruta);
+		if (stat(rutaComp, &st) == 0)
+			break;
+
+		free(rutaComp);
+		rutaComp = NULL;
+		copy = copy->next;
+	}
+	if (rutaComp)
+	{
+		free(ruta);
+		ruta = rutaComp;
+
+		return (ruta);
 	}
 	else
 	{
-		while (dup != NULL)
-		{
-			ruta = _strcat(dup->direct, "/");
-			rutaComp = _strcat(ruta, dir);
-			if (stat(rutaComp, &st) == 0)
-			{
-				free(ruta);
-				return (rutaComp);
-			}
-			dup = dup->next;
-			free(ruta);
-			free(rutaComp);
-		}
+		free(ruta);
+		return (NULL);
 	}
-	return (dir);
+
+	return (ruta);
 }
