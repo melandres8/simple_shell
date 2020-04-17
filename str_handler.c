@@ -85,9 +85,9 @@ char *_strcat(char *fstr, char *sstr)
 }
 
 /**
- * 
- * 
- * 
+ * sep_str - sep_str
+ * @input: input
+ * Return: char**;
  */
 char **sep_str(char *input)
 {
