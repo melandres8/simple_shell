@@ -18,24 +18,48 @@ int main(int ac, char *av[])
 
 	add_dir_to_struct(&head, directories);
 
-	do {
-		write(STDOUT_FILENO, "$ ", 2);
+	if (!isatty(STDIN_FILENO))
+	{
 		rget = getline(&lineptr, &n, stdin);
-
-		if (verify_cases(lineptr, rget) == 1)
-		{
-			free_list(head);
-			free(lineptr);
-			return (0);
-		}
-		else
-		{
-			exect_commands(lineptr, head, nerror, av[0]);
-		}
+		logic(lineptr, head, nerror, av, rget);
 		nerror++;
-	} while (rget != -1);
+	}
+	else
+	{
+
+		do {
+			write(STDOUT_FILENO, "$ ", 2);
+			rget = getline(&lineptr, &n, stdin);
+			logic(lineptr, head, nerror, av, rget);
+			nerror++;
+		} while (rget != -1);
+	}
+
 	free(lineptr);
+	free_list(head);
+
 	return (0);
+}
+/**
+ * logic - function created because of betty
+ * @lineptr: lineptr
+ * @head: head
+ * @nerror: nerror
+ * @av: av
+ * @rget: rget
+ */
+void logic(char *lineptr, directs *head, int nerror, char **av, ssize_t rget)
+{
+	if (verify_cases(lineptr, rget) == 1)
+	{
+		free_list(head);
+		free(lineptr);
+		exit(0);
+	}
+	else
+	{
+		exect_commands(lineptr, head, nerror, av[0]);
+	}
 }
 /**
  * exect_commands - exect_commands

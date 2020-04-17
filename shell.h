@@ -50,5 +50,6 @@ void free_mem(char *ruta, char **mcommands, char *lineptr);
 int count_buffer(char *buffer);
 char *_strdup(char *str);
 int _strncmp(const char *first, const char *last, size_t count);
+void logic(char *lineptr, directs *head, int nerror, char **av, ssize_t rget);
 
 #endif /*HOLBERTON*/
