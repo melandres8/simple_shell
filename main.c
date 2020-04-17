@@ -4,9 +4,10 @@
  * main - entry point
  * @ac: narg
  * @av: args
+ * @env: env
  * Return: 0 on success
  */
-int main(int ac, char *av[])
+int main(int ac, char *av[], char **env)
 {
 	ssize_t rget = 0;
 	char *lineptr = NULL;
@@ -21,7 +22,7 @@ int main(int ac, char *av[])
 	if (!isatty(STDIN_FILENO))
 	{
 		rget = getline(&lineptr, &n, stdin);
-		logic(lineptr, head, nerror, av, rget);
+		logic(lineptr, head, nerror, av, rget, env);
 		nerror++;
 	}
 	else
@@ -30,7 +31,7 @@ int main(int ac, char *av[])
 		do {
 			write(STDOUT_FILENO, "$ ", 2);
 			rget = getline(&lineptr, &n, stdin);
-			logic(lineptr, head, nerror, av, rget);
+			logic(lineptr, head, nerror, av, rget, env);
 			nerror++;
 		} while (rget != -1);
 	}
@@ -47,8 +48,10 @@ int main(int ac, char *av[])
  * @nerror: nerror
  * @av: av
  * @rget: rget
+ * @env: env
  */
-void logic(char *lineptr, directs *head, int nerror, char **av, ssize_t rget)
+void logic(char *lineptr, directs *head, int nerror,
+char **av, ssize_t rget, char **env)
 {
 	if (verify_cases(lineptr, rget) == 1)
 	{
@@ -58,7 +61,7 @@ void logic(char *lineptr, directs *head, int nerror, char **av, ssize_t rget)
 	}
 	else
 	{
-		exect_commands(lineptr, head, nerror, av[0]);
+		exect_commands(lineptr, head, nerror, av[0], env);
 	}
 }
 /**
@@ -67,9 +70,11 @@ void logic(char *lineptr, directs *head, int nerror, char **av, ssize_t rget)
  * @head: head
  * @nerror: nerror
  * @av: av
+ * @env: env
  * Return: int
  */
-int exect_commands(char *lineptr, directs *head, int nerror, char *av)
+int exect_commands(char *lineptr, directs *head, int nerror,
+char *av, char **env)
 {
 	char **mcommands = NULL, *ruta = NULL;
 	struct stat st;
@@ -90,7 +95,7 @@ int exect_commands(char *lineptr, directs *head, int nerror, char *av)
 		rfork = fork();
 		if (rfork == 0)
 		{
-			if (execve(ruta, mcommands, environ) == -1)
+			if (execve(ruta, mcommands, env) == -1)
 			{
 				print_err(av, mcommands[0], nerror);
 				free(mcommands);
