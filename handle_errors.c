@@ -27,7 +27,8 @@ int verify_cases(char *lineptr, ssize_t rget)
 	}
 	else if (rget == EOF)
 	{
-		write(STDOUT_FILENO, "\n", 1);
+		if (isatty(STDIN_FILENO))
+			write(STDOUT_FILENO, "\n", 1);
 		return (1);
 	}
 	else if (_strcmp(lineptr, "env\n") == 0)

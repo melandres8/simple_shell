@@ -19,22 +19,17 @@ int main(int ac, char *av[], char **env)
 
 	add_dir_to_struct(&head, directories);
 
-	if (!isatty(STDIN_FILENO))
-	{
+	if (isatty(STDIN_FILENO))
+		write(STDOUT_FILENO, "$ ", 2);
+
+	do {
+
 		rget = getline(&lineptr, &n, stdin);
 		logic(lineptr, head, nerror, av, rget, env);
-		nerror++;
-	}
-	else
-	{
-
-		do {
+		if (isatty(STDIN_FILENO))
 			write(STDOUT_FILENO, "$ ", 2);
-			rget = getline(&lineptr, &n, stdin);
-			logic(lineptr, head, nerror, av, rget, env);
-			nerror++;
-		} while (rget != -1);
-	}
+		nerror++;
+	} while (rget != -1);
 
 	free(lineptr);
 	free_list(head);
@@ -51,7 +46,7 @@ int main(int ac, char *av[], char **env)
  * @env: env
  */
 void logic(char *lineptr, directs *head, int nerror,
-char **av, ssize_t rget, char **env)
+	   char **av, ssize_t rget, char **env)
 {
 	if (verify_cases(lineptr, rget) == 1)
 	{
@@ -74,7 +69,7 @@ char **av, ssize_t rget, char **env)
  * Return: int
  */
 int exect_commands(char *lineptr, directs *head, int nerror,
-char *av, char **env)
+		   char *av, char **env)
 {
 	char **mcommands = NULL, *ruta = NULL;
 	struct stat st;
