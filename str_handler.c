@@ -91,39 +91,26 @@ char *_strcat(char *fstr, char *sstr)
  */
 char **sep_str(char *input)
 {
-	int len = 0, i = 0, j = 0;
-	char *copy = NULL, **args = NULL, *token = NULL;
+	int i = 0;
+	char **args = NULL, *token = NULL;
 
-	copy = malloc(sizeof(char) * (_strlen(input) + 1));
+	args = malloc(sizeof(char *) * (count_buffer(input) + 1));
 
-	if (copy == NULL)
+	if (args == NULL)
+	{
+		free(input);
 		return (NULL);
-
-	_strcpy(copy, input);
-
-	token = strtok(copy, DELIMS);
-	while (token != NULL)
-		token = strtok(NULL, DELIMS), len++;
-
-	args = malloc(sizeof(char *) * (len + 1));
+	}
 
 	token = strtok(input, DELIMS);
 
 	while (token != NULL)
 	{
-		args[i] = malloc(sizeof(char) * _strlen(token) + 1);
-		if (args[i] == NULL)
-		{
-			for (j = 0; j < i; j++)
-				free(args[j]);
-			free(args), free(copy);
-			return (NULL);
-		}
-		_strcpy(args[i], token);
+		args[i] = token;
 		token = strtok(NULL, DELIMS);
 		i++;
 	}
 	args[i] = NULL;
-	free(copy);
+
 	return (args);
 }

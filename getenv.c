@@ -7,22 +7,40 @@
  */
 char *_getenv(char *name)
 {
-	char *dup = NULL, *token = NULL, *value = NULL;
+	char *path = name;
 	int i = 0;
 
-	dup = malloc(sizeof(char) * _strlen(dup) + 7);
-	_strcpy(dup, name);
-	for (i = 0; environ[i] != NULL; i++)
+	while (environ[i])
 	{
-		token = strtok(environ[i], "=");
-		if (_strcmp(dup, environ[i]) == 0)
+
+		if (_strncmp(environ[i], path, 4) == 0)
 		{
-			token = strtok(NULL, "=");
-			value = token;
 			break;
 		}
+		i++;
+	}
+	return (environ[i]);
+}
+
+
+/**
+ * _strncmp - Compare two strings
+ * @first: string
+ * @last: string
+ * @count: n size of bytes to compare
+ * Description: compares the first (at most) n bytes of s1 and s2.
+ * Return: negative int if s1 < s2, 0 if matching, and positive int if s1 > s2
+ */
+int _strncmp(const char *first, const char *last, size_t count)
+{
+	if (!count)
+		return (0);
+
+	while (--count && *first && *first == *last)
+	{
+		first++;
+		last++;
 	}
 
-	free(dup);
-	return (value);
+	return (*first - *last);
 }

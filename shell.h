@@ -46,6 +46,9 @@ int exect_commands(char *lineptr, directs *head, int nerror, char *av);
 int verify_cases(char *lineptr, ssize_t rget);
 void free_list(directs *head);
 void free_dbl_arr(char **arr);
-void free_mem(char *ruta, char **mcommands);
+void free_mem(char *ruta, char **mcommands, char *lineptr);
+int count_buffer(char *buffer);
+char *_strdup(char *str);
+int _strncmp(const char *first, const char *last, size_t count);
 
 #endif /*HOLBERTON*/

@@ -18,7 +18,8 @@ int main(int ac, char *av[])
 
 	add_dir_to_struct(&head, directories);
 
-	do {
+	do
+	{
 		write(STDOUT_FILENO, "$ ", 2);
 		rget = getline(&lineptr, &n, stdin);
 
@@ -61,7 +62,7 @@ int exect_commands(char *lineptr, directs *head, int nerror, char *av)
 			if (execve(ruta, mcommands, environ) == -1)
 			{
 				print_err(av, mcommands[0], nerror);
-				free_mem(ruta, mcommands);
+				free(mcommands);
 				_exit(127);
 			}
 		}
@@ -70,7 +71,7 @@ int exect_commands(char *lineptr, directs *head, int nerror, char *av)
 			wait(&wstatus);
 		}
 	}
-	free_mem(ruta, mcommands);
+	free(mcommands);
 	return (0);
 }
 
@@ -86,10 +87,12 @@ void free_dbl_arr(char **arr)
 	free(arr);
 }
 
-void free_mem(char *ruta, char **mcommands)
+void free_mem(char *ruta, char **mcommands, char *lineptr)
 {
-	if (!ruta)
+	if (ruta)
 		free(ruta);
-	if (!mcommands)
-		free_dbl_arr(mcommands);	
+	if (lineptr)
+		free(lineptr);
+	if (mcommands)
+		free_dbl_arr(mcommands);
 }
