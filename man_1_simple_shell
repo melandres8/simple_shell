@@ -1,3 +1,4 @@
+./" ManPage - Simple_shell.
 .TH man 1 "11 April 2020" "1.0" "simple_shell man page"
 .SH NAME
 .B simple_shell
@@ -7,6 +8,21 @@
 .IR
 .BI simple_shell
 [options][file]
+
 .SH DESCRIPTION
 .B simple_shell,
-is a command interpreter that provides a command line user interface
+is a command interpreter that provides a command line user interface that executes commands in intecractive end non-ineractive mode.
+This simple_shell has the most basic functionalities that any other shell has.
+
+.SS Overview
+The shell is a command that reads lines from either a file or the terminal, interprets them, and generally executes other commands.
+
+.SH SYNTAX
+.B $ [command | options] <argument> <argument>
+
+.SH AUTHORS
+Steven Brand Ramirez <steven.brand1999@gmail.com>.
+Melkin Mosquera Taylor <melanmosta@gmail.com>.
+
+.SH See also
+.B sh
