@@ -61,6 +61,7 @@ int exect_commands(char *lineptr, directs *head, int nerror, char *av)
 			if (execve(ruta, mcommands, environ) == -1)
 			{
 				print_err(av, mcommands[0], nerror);
+				free_mem(ruta, mcommands);
 				_exit(127);
 			}
 		}
@@ -69,5 +70,26 @@ int exect_commands(char *lineptr, directs *head, int nerror, char *av)
 			wait(&wstatus);
 		}
 	}
+	free_mem(ruta, mcommands);
 	return (0);
+}
+
+void free_dbl_arr(char **arr)
+{
+	int i = 0;
+
+	if (!arr)
+		return;
+
+	while (arr[i] != NULL)
+		free(arr[i]), i++;
+	free(arr);
+}
+
+void free_mem(char *ruta, char **mcommands)
+{
+	if (!ruta)
+		free(ruta);
+	if (!mcommands)
+		free_dbl_arr(mcommands);	
 }

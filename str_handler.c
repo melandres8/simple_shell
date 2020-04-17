@@ -105,13 +105,13 @@ char **sep_str(char *input)
 	while (token != NULL)
 		token = strtok(NULL, DELIMS), len++;
 
-	args = malloc(sizeof(char *) * (len + 2));
+	args = malloc(sizeof(char *) * (len + 1));
 
 	token = strtok(input, DELIMS);
 
 	while (token != NULL)
 	{
-		args[i] = malloc(sizeof(char) * _strlen(token) + 2);
+		args[i] = malloc(sizeof(char) * _strlen(token) + 1);
 		if (args[i] == NULL)
 		{
 			for (j = 0; j < i; j++)
