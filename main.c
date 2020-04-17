@@ -2,7 +2,7 @@
 
 /**
  * main - entry point
- * @c: narg
+ * @ac: narg
  * @av: args
  * Return: 0 on success
  */
@@ -18,8 +18,7 @@ int main(int ac, char *av[])
 
 	add_dir_to_struct(&head, directories);
 
-	do
-	{
+	do {
 		write(STDOUT_FILENO, "$ ", 2);
 		rget = getline(&lineptr, &n, stdin);
 
@@ -38,7 +37,14 @@ int main(int ac, char *av[])
 	free(lineptr);
 	return (0);
 }
-
+/**
+ * exect_commands - exect_commands
+ * @lineptr: lineptr
+ * @head: head
+ * @nerror: nerror
+ * @av: av
+ * Return: int
+ */
 int exect_commands(char *lineptr, directs *head, int nerror, char *av)
 {
 	char **mcommands = NULL, *ruta = NULL;
@@ -79,7 +85,10 @@ int exect_commands(char *lineptr, directs *head, int nerror, char *av)
 	free(mcommands);
 	return (0);
 }
-
+/**
+ * free_dbl_arr - free_dbl_arr
+ * @arr: arr
+ */
 void free_dbl_arr(char **arr)
 {
 	int i = 0;
@@ -91,7 +100,12 @@ void free_dbl_arr(char **arr)
 		free(arr[i]), i++;
 	free(arr);
 }
-
+/**
+ * free_mem - free_mem
+ * @ruta: ruta
+ * @mcommands: mcommands
+ * @lineptr: lineptr
+ */
 void free_mem(char *ruta, char **mcommands, char *lineptr)
 {
 	if (ruta)

@@ -1,5 +1,9 @@
 #include "shell.h"
-
+/**
+ * count_buffer - count_buffer
+ * @buffer: buffer
+ * Return: int
+ */
 int count_buffer(char *buffer)
 {
 	int counter = 0;
