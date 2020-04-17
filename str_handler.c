@@ -68,7 +68,7 @@ char *_strcat(char *fstr, char *sstr)
 
 	lens2 = _strlen(sstr);
 
-	concat = malloc((lens1 + lens2 + 1));
+	concat = malloc((lens1 + lens2 + 7));
 
 	for (i = 0; i < lens1; i++)
 	{
@@ -105,13 +105,13 @@ char **sep_str(char *input)
 	while (token != NULL)
 		token = strtok(NULL, DELIMS), len++;
 
-	args = malloc(sizeof(char *) * (len + 1));
+	args = malloc(sizeof(char *) * (len + 2));
 
 	token = strtok(input, DELIMS);
 
 	while (token != NULL)
 	{
-		args[i] = malloc(sizeof(char) * _strlen(token));
+		args[i] = malloc(sizeof(char) * _strlen(token) + 2);
 		if (args[i] == NULL)
 		{
 			for (j = 0; j < i; j++)

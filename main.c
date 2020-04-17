@@ -24,6 +24,7 @@ int main(int ac, char *av[])
 
 		if (verify_cases(lineptr, rget) == 1)
 		{
+			free_list(head);
 			free(lineptr);
 			return (0);
 		}

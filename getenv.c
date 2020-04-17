@@ -10,7 +10,7 @@ char *_getenv(char *name)
 	char *dup = NULL, *token = NULL, *value = NULL;
 	int i = 0;
 
-	dup = malloc(sizeof(char) * _strlen(dup) + 1);
+	dup = malloc(sizeof(char) * _strlen(dup) + 7);
 	_strcpy(dup, name);
 	for (i = 0; environ[i] != NULL; i++)
 	{

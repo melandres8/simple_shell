@@ -44,5 +44,6 @@ void add_dir_to_struct(struct directories **head, char *directories);
 char *_which(directs **head, char *dir);
 int exect_commands(char *lineptr, directs *head, int nerror, char *av);
 int verify_cases(char *lineptr, ssize_t rget);
+void free_list(directs *head);
 
 #endif /*HOLBERTON*/

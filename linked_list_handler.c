@@ -51,3 +51,22 @@ void add_dir_to_struct(struct directories **head, char *directories)
 		token = strtok(NULL, ":");
 	}
 }
+
+/**
+ * free_list - free_list
+ * @head: head
+ */
+void free_list(directs *head)
+{
+	directs *p, *store;
+
+	p = head;
+
+	while (p != NULL)
+	{
+		store = p->next;
+		free(p->direct);
+		free(p);
+		p = store;
+	}
+}
