@@ -1,0 +1,12 @@
+.TH man 1 "11 April 2020" "1.0" "simple_shell man page"
+.SH NAME
+.B simple_shell
+- command interpreter(shell).
+
+.SH SYNOPSIS
+.IR
+.BI simple_shell
+[options][file]
+.SH DESCRIPTION
+.B simple_shell,
+is a command interpreter that provides a command line user interface
