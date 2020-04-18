@@ -9,56 +9,40 @@
  */
 int main(int ac, char *av[], char **env)
 {
-	ssize_t rget = 0;
+	/*ssize_t rget = 0;
 	char *lineptr = NULL;
-	size_t n = 0;
+	size_t n = 0;*/
 	int nerror = 1;
 	directs *head = NULL;
 	char *directories = _getenv("PATH");
 	(void)ac, (void)av;
 
 	add_dir_to_struct(&head, directories);
-
+	exect_commands("    asd  ", head, nerror, av[0], env);
+/*
 	if (isatty(STDIN_FILENO))
 		write(STDOUT_FILENO, "$ ", 2);
 
+	signal(SIGINT, &handle_signal);
 	do {
-
 		rget = getline(&lineptr, &n, stdin);
-		logic(lineptr, head, nerror, av, rget, env);
+		if (rget == EOF)
+		{
+			if (isatty(STDIN_FILENO))
+				write(STDOUT_FILENO, "\n", 1);
+			break;
+		}
+		exect_commands(lineptr, head, nerror, av[0], env);
 		if (isatty(STDIN_FILENO))
 			write(STDOUT_FILENO, "$ ", 2);
 		nerror++;
 	} while (rget != -1);
 
 	free(lineptr);
-	free_list(head);
-
+	free_list(head);*/
 	return (0);
 }
-/**
- * logic - function created because of betty
- * @lineptr: lineptr
- * @head: head
- * @nerror: nerror
- * @av: av
- * @rget: rget
- * @env: env
- */
-void logic(char *lineptr, directs *head, int nerror,
-	   char **av, ssize_t rget, char **env)
-{
-	if (verify_cases(lineptr, rget) == 1)
-	{
-		free_list(head);
-		free(lineptr);
-		exit(0);
-	}
-	else
-	{
-		exect_commands(lineptr, head, nerror, av[0], env);
-	}
-}
+
 /**
  * exect_commands - exect_commands
  * @lineptr: lineptr
@@ -77,32 +61,47 @@ int exect_commands(char *lineptr, directs *head, int nerror,
 	int wstatus = 0;
 
 	mcommands = sep_str(lineptr);
-	if (stat(mcommands[0], &st) == 0)
-		ruta = mcommands[0];
-	else
-	{
-		ruta = _which(&head, mcommands[0]);
-	}
 
-	if (lineptr && _strcmp(lineptr, "\n") && mcommands[0])
-	{
 
-		rfork = fork();
-		if (rfork == 0)
+	if (mcommands[0])
+	{
+		if (verify_cases(mcommands[0]) == 1)
 		{
-			if (execve(ruta, mcommands, env) == -1)
+			free_list(head);
+			free(mcommands);
+			free(lineptr);
+			exit(0);
+		}
+		if (stat(mcommands[0], &st) == 0)
+			ruta = mcommands[0];
+		else
+		{
+			ruta = _which(&head, mcommands[0]);
+		}
+		if (lineptr && _strncmp(lineptr, "\n", 1) && ruta)
+		{
+			rfork = fork();
+			if (rfork == 0)
 			{
-				print_err(av, mcommands[0], nerror);
-				free(mcommands);
-				free(ruta);
-				free(lineptr);
-				free_list(head);
-				_exit(127);
+				if (execve(ruta, mcommands, env) == -1)
+				{
+					print_err(av, mcommands[0], nerror);
+					free(mcommands);
+					if (ruta)
+						free(ruta);
+					free(lineptr);
+					free_list(head);
+					_exit(127);
+				}
+			}
+			else
+			{
+				wait(&wstatus);
 			}
 		}
 		else
 		{
-			wait(&wstatus);
+			print_err(av, mcommands[0], nerror);
 		}
 	}
 	if (ruta)

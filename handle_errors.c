@@ -19,22 +19,28 @@ void print_err(char *file, char *command, int nerror)
  * @rget: rget
  * Return: int
  */
-int verify_cases(char *lineptr, ssize_t rget)
+int verify_cases(char *lineptr)
 {
-	if (_strcmp(lineptr, "exit\n") == 0)
+	if (_strncmp(lineptr, "exit", 4) == 0)
 	{
 		return (1);
 	}
-	else if (rget == EOF)
-	{
-		if (isatty(STDIN_FILENO))
-			write(STDOUT_FILENO, "\n", 1);
-		return (1);
-	}
-	else if (_strcmp(lineptr, "env\n") == 0)
+	else if (_strncmp(lineptr, "env", 3) == 0)
 	{
 		penv();
 		return (0);
 	}
 	return (0);
+}
+
+/**
+ * handle_signal - the Signal Handler
+ * @sig: Signal number.
+ */
+
+void handle_signal(int sig)
+{
+	write(STDIN_FILENO, "\n$ ", 3);
+	fflush(stdout);
+	(void)sig;
 }

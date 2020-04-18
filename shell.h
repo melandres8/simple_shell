@@ -9,6 +9,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <signal.h>
 
 #define DELIMS " \t\n\r\a"
 extern char **environ;
@@ -28,7 +29,6 @@ typedef struct directories
 int _strlen(char *str);
 char *_strcpy(char *fstr, char *sstr);
 char *_strcat(char *fstr, char *sstr);
-int _strcmp(char *s1, char *s2);
 char **sep_str(char *input);
 
 /*Handle errors: functions*/
@@ -43,7 +43,7 @@ struct directories *add_node_end(struct directories **head, char *str);
 void add_dir_to_struct(struct directories **head, char *directories);
 char *_which(directs **head, char *dir);
 int exect_commands(char *, directs *, int, char *, char **);
-int verify_cases(char *lineptr, ssize_t rget);
+int verify_cases(char *lineptr);
 void free_list(directs *head);
 void free_dbl_arr(char **arr);
 void free_mem(char *ruta, char **mcommands, char *lineptr);
@@ -51,5 +51,6 @@ int count_buffer(char *buffer);
 char *_strdup(char *str);
 int _strncmp(const char *first, const char *last, size_t count);
 void logic(char *, directs *, int, char **, ssize_t, char **);
+void handle_signal(int sig);
 
 #endif /*HOLBERTON*/
