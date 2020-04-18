@@ -9,17 +9,16 @@
  */
 int main(int ac, char *av[], char **env)
 {
-	/*ssize_t rget = 0;
+	ssize_t rget = 0;
 	char *lineptr = NULL;
-	size_t n = 0;*/
+	size_t n = 0;
 	int nerror = 1;
 	directs *head = NULL;
 	char *directories = _getenv("PATH");
 	(void)ac, (void)av;
 
 	add_dir_to_struct(&head, directories);
-	exect_commands("    asd  ", head, nerror, av[0], env);
-/*
+
 	if (isatty(STDIN_FILENO))
 		write(STDOUT_FILENO, "$ ", 2);
 
@@ -39,7 +38,7 @@ int main(int ac, char *av[], char **env)
 	} while (rget != -1);
 
 	free(lineptr);
-	free_list(head);*/
+	free_list(head);
 	return (0);
 }
 
@@ -58,26 +57,17 @@ int exect_commands(char *lineptr, directs *head, int nerror,
 	char **mcommands = NULL, *ruta = NULL;
 	struct stat st;
 	pid_t rfork = 0;
-	int wstatus = 0;
+	int wstatus = 0, counter = 0;
 
 	mcommands = sep_str(lineptr);
-
-
 	if (mcommands[0])
 	{
 		if (verify_cases(mcommands[0]) == 1)
-		{
-			free_list(head);
-			free(mcommands);
-			free(lineptr);
-			exit(0);
-		}
+			free_mem(head, mcommands, lineptr), exit(0);
 		if (stat(mcommands[0], &st) == 0)
 			ruta = mcommands[0];
 		else
-		{
-			ruta = _which(&head, mcommands[0]);
-		}
+			ruta = _which(&head, mcommands[0]), counter++;
 		if (lineptr && _strncmp(lineptr, "\n", 1) && ruta)
 		{
 			rfork = fork();
@@ -86,26 +76,20 @@ int exect_commands(char *lineptr, directs *head, int nerror,
 				if (execve(ruta, mcommands, env) == -1)
 				{
 					print_err(av, mcommands[0], nerror);
-					free(mcommands);
-					if (ruta)
-						free(ruta);
-					free(lineptr);
-					free_list(head);
+					free_mem(head, mcommands, lineptr);
 					_exit(127);
 				}
 			}
 			else
 			{
 				wait(&wstatus);
+				if (counter != 0)
+					free(ruta);
 			}
 		}
 		else
-		{
 			print_err(av, mcommands[0], nerror);
-		}
 	}
-	if (ruta)
-		free(ruta);
 	ruta = NULL;
 	free(mcommands);
 	return (0);
@@ -127,14 +111,13 @@ void free_dbl_arr(char **arr)
 }
 /**
  * free_mem - free_mem
- * @ruta: ruta
+ * @head: head
  * @mcommands: mcommands
  * @lineptr: lineptr
  */
-void free_mem(char *ruta, char **mcommands, char *lineptr)
+void free_mem(directs *head, char **mcommands, char *lineptr)
 {
-	if (ruta)
-		free(ruta);
+	free_list(head);
 	if (lineptr)
 		free(lineptr);
 	if (mcommands)

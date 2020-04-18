@@ -16,7 +16,6 @@ void print_err(char *file, char *command, int nerror)
 /**
  * verify_cases - verify_cases
  * @lineptr: lineptr
- * @rget: rget
  * Return: int
  */
 int verify_cases(char *lineptr)
